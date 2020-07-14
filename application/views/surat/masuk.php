@@ -16,6 +16,9 @@
         <div class="btn-group mb-2">
             <button class="btn btn-sm btn-primary pt-2 pb-2" data-toggle="modal" data-target="#masuk"><i class="fas fa-plus fa-sm "></i>Tambah Surat</button>
         </div>
+        <div class="btn-group mb-2">
+            <a href="<?= base_url('persuratan/print') ?>" class="btn btn-danger"><i class="fas fa-fw fa-print"></i>Print</a>
+        </div>
         <div class="container-fluid">
             <section class="content">
                 <div class="row">

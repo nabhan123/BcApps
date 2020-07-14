@@ -13,7 +13,7 @@
                  <img src="<?= base_url('assets/admin/dist/img/Profile/') . $user['image']; ?>" class="img-circle elevation-2" alt="User Image">
              </div>
              <div class="info">
-                 <a href="#" class="d-block"><?= $user['name'] ?></a>
+                 <a href="<?= base_url('user') ?>" class="d-block"><?= $user['name'] ?></a>
              </div>
          </div>
 

@@ -267,4 +267,9 @@ class Persuratan extends CI_Controller
 
         exit;
     }
+    public function print()
+    {
+        $data['masuk'] = $this->model_masuk->tampil_masuk('surat_masuk')->result();
+        $this->load->view('surat/print_masuk', $data);
+    }
 }
