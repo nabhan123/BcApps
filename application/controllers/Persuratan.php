@@ -23,7 +23,7 @@ class Persuratan extends CI_Controller
         // config
         // $config['total_rows'] = $this->db->count_all_results();
         $config['total_rows'] = $this->model_masuk->hitungSurat();
-        $config['per_page'] = 3;
+        $config['per_page'] = 4;
         // $config['num_links'] = 2;
 
 

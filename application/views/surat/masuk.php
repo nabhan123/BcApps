@@ -19,20 +19,29 @@
         <div class="btn-group mb-2">
             <a href="<?= base_url('persuratan/print') ?>" class="btn btn-danger"><i class="fas fa-fw fa-print"></i>Print</a>
         </div>
-        <div class="container-fluid">
-            <section class="content">
-                <div class="row">
-                    <div class="col-md-4">
-                        <form action="<?= base_url('persuratan'); ?>" method="post">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Search by Jenis surat.." name="search" autocomplete="off" autofocus>
-                                <div class="input-group-append">
-                                    <input class="btn btn-primary" type="submit" name="submit"></i></input>
-                                </div>
-                            </div>
-                        </form>
-            </section>
+        <div class="btn-group">
+            <div class="col-md">
+                <form class="form-inline" action="<?= base_url('persuratan'); ?>" method="post">
+                    <div class="input-group mb-2">
+                        <!-- <input class="form-control form-control-navbar" type="text" name="search" placeholder="Search" aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-navbar" type="submit" name="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div> -->
+                        <input type="text" class="form-control form-control-navbar" placeholder="Search by Jenis surat.." name="search" autocomplete="off" autofocus>
+                        <div class="input-group-append">
+                            <input class="btn btn-primary" type="submit" name="submit">
+                            </input>
+                        </div>
+                    </div>
+                </form>
+                </section>
+            </div>
         </div>
+        <!-- <div class="container-fluid">
+            <section class="content">
+                <div class="row"> -->
         <table class="table table-bordered">
 
             <tr style="background-color:gainsboro;">
