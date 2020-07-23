@@ -20,115 +20,63 @@
          <!-- Sidebar Menu -->
          <nav class="mt-2">
              <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                 <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-                 <li class="nav-item has-treeview">
-                     <a href="#" class="nav-link ">
-                         <i class="nav-icon fas fa-fw fa-envelope"></i>
-                         <p>
-                             Persuratan
-                             <i class="right fas fa-angle-left"></i>
-                         </p>
-                     </a>
-                     <ul class="nav nav-treeview">
-                         <li class="nav-item" style="padding-left: 5%;">
-                             <a href="<?= base_url('persuratan') ?>" class="nav-link">
-                                 <i class="fas fa-fw fa-envelope-square"></i>
-                                 <p>Surat Masuk</p>
-                             </a>
-                         </li>
-                         <li class="nav-item" style="padding-left: 5%;">
-                             <a href="<?= base_url('persuratan/surat_k') ?>" class="nav-link">
-                                 <i class="fas fa-fw fa-envelope-open"></i>
-                                 <p>Surat Keluar</p>
-                             </a>
-                         </li>
-                     </ul>
-                 </li>
 
+                 <!-- melakukan query menu -->
+                 <?php
+                    $role_id = $this->session->userdata('role_id');
+                    $queryMenu = "SELECT `user_menu`.`id`,`menu`
+              FROM `user_menu` JOIN `user_access_menu`
+                ON `user_menu`. `id` = `user_access_menu`.`menu_id`
+             WHERE `user_access_menu`.`role_id` = $role_id
+             ORDER BY `user_access_menu` . `menu_id` ASC
+             ";
+                    $menu = $this->db->query($queryMenu)->result_array();
+                    ?>
+                 <!-- looping menu -->
                  <li class="nav-item has-treeview">
-                     <a href="#" class="nav-link">
-                         <i class="nav-icon fas fa-fw fa-hourglass"></i>
-                         <p>
-                             Layanan PKC
-                             <i class="fas fa-angle-left right"></i>
-                             <span class="badge badge-info right">6</span>
-                         </p>
-                     </a>
-                     <ul class="nav nav-treeview">
-                         <li class="nav-item">
-                             <a href="pages/layout/top-nav.html" class="nav-link">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>Top Navigation</p>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>Top Navigation + Sidebar</p>
-                             </a>
-                         </li>
+                     <?php foreach ($menu as $m) : ?>
+                         <div class="sidebar-heading" style="color:grey; margin-left:10%;">
+                             <?= $m['menu']; ?>
+                         </div>
 
-                     </ul>
-                 </li>
+                         <!-- query sub-menu -->
+                         <?php
+                            $menuId = $m['id'];
+                            $querySubMenu = "SELECT * 
+          FROM `user_sub_menu` JOIN `user_menu`
+            ON `user_sub_menu`. `menu_id` = `user_menu`.`id`
+         WHERE `user_sub_menu`.`menu_id` = $menuId
+        AND `user_sub_menu`.`is_active` = 1
+         ";
+                            $subMenu = $this->db->query($querySubMenu)->result_array();
+                            ?>
+
+                         <!-- looping submenu -->
                  <li class="nav-item has-treeview">
-                     <a href="#" class="nav-link">
-                         <i class="nav-icon fas fa-fw fa-tags"></i>
-                         <p>
-                             Layanan Lainnya
-                             <i class="right fas fa-angle-left"></i>
-                         </p>
-                     </a>
-                     <ul class="nav nav-treeview">
-                         <li class="nav-item">
-                             <a href="pages/charts/chartjs.html" class="nav-link">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>ChartJS</p>
-                             </a>
-                         </li>
-
-                     </ul>
+                     <?php foreach ($subMenu as $sm) : ?>
+                         <?php if ($title == $sm['title']) : ?>
+                             <ul class="nav-item" style="padding-left: 5%; color: goldenrod;">
+                             <?php else : ?>
+                                 <a class="nav-link" href="<?= base_url($sm['url']); ?>" style="color:whitesmoke;">
+                                 <?php endif; ?>
+                                 <i class="<?= $sm['icon']; ?>"></i>
+                                 <span><?= $sm['title']; ?>
+                                 </span>
+                                 </a>
+                             </ul>
+                         <?php endforeach; ?>
+                         <hr class="sidebar-divider mt-3" style="color: aliceblue;">
+                     <?php endforeach; ?>
                  </li>
-                 <li class="nav-item has-treeview">
-                     <a href="#" class="nav-link">
-                         <i class="nav-icon fas fa-fw fa-archive"></i>
-                         <p>
-                             Arsip PKC
-                             <i class="fas fa-angle-left right"></i>
-                         </p>
-                     </a>
-                     <ul class="nav nav-treeview">
-                         <li class="nav-item">
-                             <a href="pages/UI/general.html" class="nav-link">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>General</p>
-                             </a>
-                         </li>
-
-                     </ul>
-                 </li>
-                 <li class="nav-header" style="padding-right: 20%;">Profile</li>
-                 <li class="nav-item">
-                     <a href="<?= base_url('user') ?>" class="nav-link">
-                         <i class="nav-icon fas fa-fw fa-user"></i>
-                         <p>
-                             My Profile
-                             <span class="badge badge-info right">2</span>
-                         </p>
-                     </a>
-                 </li>
-                 <li class="nav-item">
-                     <a href="<?= base_url('auth/logout') ?>" class="nav-link">
-                         <i class=" nav-icon fas fa-fw fa-sign-out-alt"></i>
+                 <li class="nav-">
+                     <a href="<?= base_url('auth/logout') ?>" class="nav-link"> <i class="fas fa-fw fa-sign-out-alt"></i>
                          <p>
                              Logout
                          </p>
                      </a>
                  </li>
 
-             </ul>
-             </li>
-
+                 </li>
              </ul>
          </nav>
          <!-- /.sidebar-menu -->

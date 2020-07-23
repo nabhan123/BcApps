@@ -2,33 +2,16 @@
     <div class="content-header">
         <?= $this->session->flashdata('message'); ?>
         <div class="btn-group mb-2">
-            <div class="dropdown">
-                <a class="btn btn-warning dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"> <i class="fas fa-fw fa-upload"></i>
-                    Export to..
 
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="<?= base_url('admin/pdf') ?>"><i class="fas fa-fw fa-file-pdf"></i>PDF</a>
-                    <a class="dropdown-item" href="<?= base_url('admin/excel') ?>"><i class="fas fa-fw fa-file-excel"></i>EXCEL</a>
-                </div>
-            </div>
         </div>
         <div class="btn-group mb-2">
-            <button class="btn btn-sm btn-primary pt-2 pb-2" data-toggle="modal" data-target="#masuk"><i class="fas fa-plus fa-sm "></i>Tambah Surat</button>
-        </div>
-        <div class="btn-group mb-2">
-            <a href="<?= base_url('admin/print') ?>" class="btn btn-danger"><i class="fas fa-fw fa-print"></i>Print</a>
+            <button class="btn btn-sm btn-primary pt-2 pb-2" data-toggle="modal" data-target="#masuk"><i class="fas fa-plus fa-sm "></i>Tambah Arsip</button>
         </div>
         <div class="btn-group">
             <div class="col-md">
                 <form class="form-inline" action="<?= base_url('admin'); ?>" method="post">
                     <div class="input-group mb-2">
-                        <!-- <input class="form-control form-control-navbar" type="text" name="search" placeholder="Search" aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-navbar" type="submit" name="submit">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div> -->
+
                         <input type="text" class="form-control form-control-navbar" placeholder="Search by Jenis surat.." name="search" autocomplete="off" autofocus>
                         <div class="input-group-append">
                             <input class="btn btn-primary" type="submit" name="submit">
@@ -39,14 +22,12 @@
                 </section>
             </div>
         </div>
-        <!-- <div class="container-fluid">
-            <section class="content">
-                <div class="row"> -->
+
         <table class="table table-bordered">
 
             <tr style="background-color:gainsboro;">
                 <th>#</th>
-                <th>Jenis Surat</th>
+                <th>Nama Arsip</th>
                 <th>Nomor</th>
                 <th>Tgl</th>
                 <th>Hal</th>

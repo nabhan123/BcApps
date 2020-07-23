@@ -8,8 +8,8 @@
 
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="<?= base_url('persuratan/pdf') ?>"><i class="fas fa-fw fa-file-pdf"></i>PDF</a>
-                    <a class="dropdown-item" href="<?= base_url('persuratan/excel') ?>"><i class="fas fa-fw fa-file-excel"></i>EXCEL</a>
+                    <a class="dropdown-item" href="<?= base_url('admin/pdf') ?>"><i class="fas fa-fw fa-file-pdf"></i>PDF</a>
+                    <a class="dropdown-item" href="<?= base_url('admin/excel') ?>"><i class="fas fa-fw fa-file-excel"></i>EXCEL</a>
                 </div>
             </div>
         </div>
@@ -17,11 +17,11 @@
             <button class="btn btn-sm btn-primary pt-2 pb-2" data-toggle="modal" data-target="#masuk"><i class="fas fa-plus fa-sm "></i>Tambah Surat</button>
         </div>
         <div class="btn-group mb-2">
-            <a href="<?= base_url('persuratan/print') ?>" class="btn btn-danger"><i class="fas fa-fw fa-print"></i>Print</a>
+            <a href="<?= base_url('admin/print') ?>" class="btn btn-danger"><i class="fas fa-fw fa-print"></i>Print</a>
         </div>
         <div class="btn-group">
             <div class="col-md">
-                <form class="form-inline" action="<?= base_url('persuratan'); ?>" method="post">
+                <form class="form-inline" action="<?= base_url('admin'); ?>" method="post">
                     <div class="input-group mb-2">
                         <!-- <input class="form-control form-control-navbar" type="text" name="search" placeholder="Search" aria-label="Search">
                         <div class="input-group-append">
@@ -82,10 +82,10 @@
                     <td><?= $m['nip_rekam']; ?></td>
                     <td><?= $m['status']; ?></td>
 
-                    <td><?= anchor('persuratan/edit/' . $m['id'], '<div class="btn btn-info btn-sm ml-2"><i class="nav-icon fas fa-fw fa-edit"></i></div>
+                    <td><?= anchor('admin/edit/' . $m['id'], '<div class="btn btn-info btn-sm ml-2"><i class="nav-icon fas fa-fw fa-edit"></i></div>
                        '); ?></td>
 
-                    <td><?= anchor('persuratan/hapus/' . $m['id'], ' <div class="btn btn-danger btn-sm ml-2"><i class="fas fa-fw fa-trash"></i></div>'); ?>
+                    <td><?= anchor('admin/hapus/' . $m['id'], ' <div class="btn btn-danger btn-sm ml-2"><i class="fas fa-fw fa-trash"></i></div>'); ?>
 
                     </td>
 
@@ -105,7 +105,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="<?= base_url('persuratan/tambah_aksi'); ?>" method="post" enctype="multipart/form-data">
+                        <form action="<?= base_url('admin/tambah_aksi'); ?>" method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label>Jenis Surat</label>
                                 <select class="form-control" id="jenis_surat" name="jenis_surat">

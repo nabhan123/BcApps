@@ -1,16 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Persuratan extends CI_Controller
+class Admin extends CI_Controller
 {
-
-    public function __construct()
-    {
-        parent::__construct();
-        if (!$this->session->userdata('nip')) {
-            redirect('auth');
-        }
-    }
     public function index()
     {
         $data['title'] = 'Surat Masuk';
@@ -60,21 +52,9 @@ class Persuratan extends CI_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             New submenu added!
            </div>');
-            redirect('persuratan');
+            redirect('admin');
         }
     }
-    public function surat_k()
-    {
-        $data['title'] = 'Surat Keluar';
-        $data['user'] = $this->db->get_where('user', ['nip' => $this->session->userdata('nip')])->row_array();
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/navbar', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('surat/keluar', $data);
-        $this->load->view('templates/footer');
-    }
-
     public function tambah_aksi()
     {
         $data = [
@@ -90,7 +70,7 @@ class Persuratan extends CI_Controller
         ];
 
         $this->db->insert('surat_masuk', $data);
-        redirect('persuratan');
+        redirect('admin');
     }
     public function edit($id)
     {
@@ -120,7 +100,7 @@ class Persuratan extends CI_Controller
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Deleted Success!
             </div>');
-        redirect('persuratan');
+        redirect('admin');
     }
     public function update()
     {
@@ -153,7 +133,7 @@ class Persuratan extends CI_Controller
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Update Success!
             </div>');
-        redirect('persuratan');
+        redirect('admin');
     }
     public function pdf()
     {
@@ -249,5 +229,70 @@ class Persuratan extends CI_Controller
     {
         $data['masuk'] = $this->model_masuk->tampil_masuk('surat_masuk')->result();
         $this->load->view('surat/print_masuk', $data);
+    }
+    public function arsip()
+    {
+        $data['title'] = 'Arsip Surat';
+        $data['user'] = $this->db->get_where('user', ['nip' =>
+        $this->session->userdata('nip')])->row_array();
+
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('surat/arsip', $data);
+        $this->load->view('templates/footer');
+    }
+    public function surat_k()
+    {
+        $data['title'] = 'Surat Keluar';
+        $data['user'] = $this->db->get_where('user', ['nip' => $this->session->userdata('nip')])->row_array();
+
+        // pagination
+        // load library
+        $this->load->library('pagination');
+
+        // config
+        // $config['total_rows'] = $this->db->count_all_results();
+        $config['total_rows'] = $this->model_masuk->hitungSurat();
+        $config['per_page'] = 4;
+        // $config['num_links'] = 2;
+
+
+        // init
+        $this->pagination->initialize($config);
+
+        // metod search       
+        if ($this->input->post('submit')) {
+            $data['search'] = $this->input->post('search');
+            // simpan data ke session
+            // $this->session->set_userdata('search', $data['search']);
+        } else {
+            $data['search'] = null;
+        }
+
+
+        $data['start'] = $this->uri->segment(3);
+        $data['masuk'] = $this->model_masuk->getSurat($config['per_page'], $data['start'], $data['search']);
+
+        $data['jenis'] = [
+            'Umum Eksternal', 'Umum Internal', 'Pembatalan PIB', 'Pembatalan CN/PIBK',
+            'Rollback CN/PIBK', 'Aktivasi Modul', 'Rekam Perbaikan PIB', 'Otoritas Pegawai', 'Redis PIB', 'Peminjaman Arsip', 'Permintaan Data'
+        ];
+
+        if ($this->form_validation->run() == false) {
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('surat/masuk', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->db->insert('surat_masuk', ['suratmasuk' => $this->input->post('suratmasuk')]);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            New submenu added!
+           </div>');
+            redirect('admin');
+        }
     }
 }

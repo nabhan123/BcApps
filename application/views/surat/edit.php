@@ -2,7 +2,7 @@
     <div class="content-header">
         <div class="container-fluid">
             <?php foreach ($surat as $s) : ?>
-                <form action="<?= base_url('persuratan/update'); ?>" method="post">
+                <form action="<?= base_url('admin/update'); ?>" method="post">
                     <div class="card card-success" style="margin-top: auto;">
                         <div class="card-header">
                             <h3 class="card-title"><?= $title; ?>

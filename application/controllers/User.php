@@ -81,4 +81,57 @@ class User extends CI_Controller
             redirect('user');
         }
     }
+    public function ubah_password()
+    {
+        # code...
+        $data['title'] = 'Ubah Password';
+        $data['user'] = $this->db->get_where('user', ['nip' => $this->session->userdata('nip')])->row_array();
+
+        $this->form_validation->set_rules('current_password', 'Current Password', 'required|trim');
+        $this->form_validation->set_rules('new_password1', 'New Password', 'required|trim|matches[new_password2]');
+        $this->form_validation->set_rules('new_password2', 'New Password', 'required|trim|matches[new_password1]');
+        // form_validation
+        if ($this->form_validation->run() == false) {
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/navbar', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('user/profile', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $current_pwd = $this->input->post('current_password');
+            $new_pwd = $this->input->post('new_password1');
+
+            if (!password_verify($current_pwd, $data['user']['password'])) {
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+                Password lama salah!
+               </div>');
+                // pindah halaman
+                redirect('user/ubah_password');
+            } else {
+                if ($current_pwd == $new_pwd) {
+                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+                    Password baru sama dengan password lama!
+                   </div>');
+                    // pindah halaman
+                    redirect('user/ubah_password');
+                } else {
+                    // kalo beda
+                    $pwd_hash = password_hash($new_pwd, PASSWORD_DEFAULT);
+
+                    $this->db->set('password', $pwd_hash);
+                    $this->db->where('nip', $this->session->userdata('nip'));
+                    $this->db->update('user');
+
+                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                    Password baru!
+                   </div>');
+                    // pindah halaman
+                    redirect('user/ubah_password');
+                }
+            }
+        }
+
+        // echo 'Selamat Datang' . $data['user']['name'];
+    }
 }
