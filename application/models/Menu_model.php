@@ -12,4 +12,18 @@ class Menu_model extends CI_Model
         ";
         return $this->db->query($query)->result_array();
     }
+    public function edit_submenu($where, $table)
+    {
+        return $this->db->get_where($table, $where);
+    }
+    public function update_submenu($where, $data, $table)
+    {
+        $this->db->where($where);
+        $this->db->update($table, $data);
+    }
+    public function hapus_submenu($where, $table)
+    {
+        $this->db->where($where);
+        $this->db->delete($table);
+    }
 }

@@ -34,7 +34,7 @@
                                 <a href="<?= base_url('auth/registrasi') ?>" class="" style="margin-left: 2%; ;">Registrasi!</a>
                             </div>
                             <div class="col-8">
-                                <a href="<?= base_url('auth/ubah_password') ?>" class="" style="margin-left: 2%;">Lupa Password?</a>
+                                <a href="<?= base_url('auth/forgotPassword') ?>" class="" style="margin-left: 2%;">Lupa Password?</a>
                             </div>
                             <!-- /.col -->
                             <div class="col-4">

@@ -20,7 +20,6 @@
          <!-- Sidebar Menu -->
          <nav class="mt-2">
              <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-
                  <!-- melakukan query menu -->
                  <?php
                     $role_id = $this->session->userdata('role_id');
@@ -33,7 +32,7 @@
                     $menu = $this->db->query($queryMenu)->result_array();
                     ?>
                  <!-- looping menu -->
-                 <li class="nav-item has-treeview">
+                 <li class="nav-item">
                      <?php foreach ($menu as $m) : ?>
                          <div class="sidebar-heading" style="color:grey; margin-left:10%;">
                              <?= $m['menu']; ?>
@@ -52,28 +51,21 @@
                             ?>
 
                          <!-- looping submenu -->
-                 <li class="nav-item has-treeview">
-                     <?php foreach ($subMenu as $sm) : ?>
-                         <?php if ($title == $sm['title']) : ?>
-                             <ul class="nav-item" style="padding-left: 5%; color: goldenrod;">
-                             <?php else : ?>
-                                 <a class="nav-link" href="<?= base_url($sm['url']); ?>" style="color:whitesmoke;">
-                                 <?php endif; ?>
-                                 <i class="<?= $sm['icon']; ?>"></i>
-                                 <span><?= $sm['title']; ?>
-                                 </span>
-                                 </a>
-                             </ul>
+                         <?php foreach ($subMenu as $sm) : ?>
+                             <?php if ($title == $sm['title']) : ?>
+                                 <ul class="nav-item" style="padding-left: 5%; color: goldenrod;">
+                                 <?php else : ?>
+                                     <a class="nav-link" href="<?= base_url($sm['url']); ?>" style="color:whitesmoke;">
+                                     <?php endif; ?>
+                                     <i class="<?= $sm['icon']; ?>"></i>
+                                     <span><?= $sm['title']; ?>
+                                     </span>
+                                     </a>
+                                 </ul>
+                             <?php endforeach; ?>
+                             <hr class="sidebar-divider mt-3" style="color: aliceblue;">
                          <?php endforeach; ?>
-                         <hr class="sidebar-divider mt-3" style="color: aliceblue;">
-                     <?php endforeach; ?>
                  </li>
-                 <li class="nav-">
-                     <a href="<?= base_url('auth/logout') ?>" class="nav-link"> <i class="fas fa-fw fa-sign-out-alt"></i>
-                         <p>
-                             Logout
-                         </p>
-                     </a>
                  </li>
 
                  </li>

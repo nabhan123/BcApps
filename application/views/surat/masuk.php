@@ -1,5 +1,10 @@
 <div class="content-wrapper">
     <div class="content-header">
+        <!-- <script>
+            $("#message").fadeTo(2000, 500).slideUp(500, function() {
+                $("#message").slideUp(500);
+            });
+        </script> -->
         <?= $this->session->flashdata('message'); ?>
         <div class="btn-group mb-2">
             <div class="dropdown">
@@ -14,7 +19,7 @@
             </div>
         </div>
         <div class="btn-group mb-2">
-            <button class="btn btn-sm btn-primary pt-2 pb-2" data-toggle="modal" data-target="#masuk"><i class="fas fa-plus fa-sm "></i>Tambah Surat</button>
+            <button class="btn btn-sm btn-primary pt-2 pb-2" data-toggle="modal" data-target="#masuk"><i class="fas fa-plus fa-sm "></i>Tambah Surat Masuk</button>
         </div>
         <div class="btn-group mb-2">
             <a href="<?= base_url('admin/print') ?>" class="btn btn-danger"><i class="fas fa-fw fa-print"></i>Print</a>

@@ -44,7 +44,7 @@
                                                     <th>Url</th>
                                                     <th>Icon</th>
                                                     <th>Active</th>
-                                                    <th>Action</th>
+                                                    <th style="padding-left:7%;">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -57,10 +57,10 @@
                                                         <td><?= $sm['url']; ?></td>
                                                         <td><?= $sm['icon']; ?></td>
                                                         <td><?= $sm['is_active']; ?></td>
-                                                        <td>
-                                                            <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                                            <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                                        </td>
+                                                        <td><?= anchor('menu/editSubmenu/' . $sm['id'], '<div class="btn btn-info btn-sm ml-2"><i class="nav-icon fas fa-fw fa-edit"></i></div>
+                                                        '); ?></td>
+                                                         <td><?= anchor('menu/hapus/' . $sm['id'], ' <div class="btn btn-danger btn-sm ml-2"><i class="fas fa-fw fa-trash"></i></div>'); ?>
+                                                       
 
                                                     </tr>
                                                     <?php $i++; ?>
@@ -74,8 +74,7 @@
                                 <!-- /.card -->
                             </div>
 
-                            <!-- modal -->
-                            <!-- Modal -->
+                            <!-- Modal tambah submenu -->
                             <div class="modal fade" id="newSubMenuModal" tabindex="-1" role="dialog" aria-labelledby="newSubMenuModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -148,4 +147,14 @@
                                         </form>
                                     </div>
                                 </div>
+                                
+                                </div>
+                                <!-- /.container-fluid -->
+
                             </div>
+                            <!-- End of Main Content -->
+                        </div>
+
+                    </div>
+                </div>
+                

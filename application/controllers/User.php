@@ -5,12 +5,10 @@ class User extends CI_Controller
 {
     public function __construct()
     {
-        // kasih session
         parent::__construct();
-        if (!$this->session->userdata('nip')) {
-            redirect('auth');
-        }
+        is_logged_in();
     }
+
     public function index()
     {
         # code...
@@ -131,7 +129,17 @@ class User extends CI_Controller
                 }
             }
         }
-
         // echo 'Selamat Datang' . $data['user']['name'];
+    }
+    public function arsip_surat()
+    {
+        $data['title'] = 'Arsip Surat';
+        $data['user'] = $this->db->get_where('user', ['nip' => $this->session->userdata('nip')])->row_array();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('surat/arsip', $data);
+        $this->load->view('templates/footer');
     }
 }

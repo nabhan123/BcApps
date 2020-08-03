@@ -3,6 +3,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Admin extends CI_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        is_logged_in();
+    }
+
     public function index()
     {
         $data['title'] = 'Surat Masuk';
@@ -247,52 +253,107 @@ class Admin extends CI_Controller
     {
         $data['title'] = 'Surat Keluar';
         $data['user'] = $this->db->get_where('user', ['nip' => $this->session->userdata('nip')])->row_array();
-
-        // pagination
-        // load library
-        $this->load->library('pagination');
-
-        // config
-        // $config['total_rows'] = $this->db->count_all_results();
-        $config['total_rows'] = $this->model_masuk->hitungSurat();
-        $config['per_page'] = 4;
-        // $config['num_links'] = 2;
-
-
-        // init
-        $this->pagination->initialize($config);
-
-        // metod search       
-        if ($this->input->post('submit')) {
-            $data['search'] = $this->input->post('search');
-            // simpan data ke session
-            // $this->session->set_userdata('search', $data['search']);
-        } else {
-            $data['search'] = null;
-        }
-
-
-        $data['start'] = $this->uri->segment(3);
-        $data['masuk'] = $this->model_masuk->getSurat($config['per_page'], $data['start'], $data['search']);
-
-        $data['jenis'] = [
+        $data['surat_k'] = $this->model_keluar->tampil_keluar('surat_keluar')->result();
+        $data['jenis_k'] = [
             'Umum Eksternal', 'Umum Internal', 'Pembatalan PIB', 'Pembatalan CN/PIBK',
             'Rollback CN/PIBK', 'Aktivasi Modul', 'Rekam Perbaikan PIB', 'Otoritas Pegawai', 'Redis PIB', 'Peminjaman Arsip', 'Permintaan Data'
         ];
 
-        if ($this->form_validation->run() == false) {
 
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navbar', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('surat/masuk', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $this->db->insert('surat_masuk', ['suratmasuk' => $this->input->post('suratmasuk')]);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            New submenu added!
-           </div>');
-            redirect('admin');
-        }
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('surat/keluar', $data);
+        $this->load->view('templates/footer');
+    }
+    public function tambah_keluarsurat()
+    {
+
+
+        $data = [
+            'jenis_surat_k' => $this->input->post('jenis_surat_k'),
+            'no_surat_k' => $this->input->post('no_surat_k'),
+            'tgl_surat_k' => $this->input->post('tgl_surat_k'),
+            'hal_surat_k' => $this->input->post('hal_surat_k'),
+            'kepada' => $this->input->post('kepada'),
+            'waktu_rekam' => $this->input->post('waktu_rekam'),
+            'nama_rekam' => $this->input->post('nama_rekam'),
+            'nip_rekam' => $this->input->post('nip_rekam'),
+            // 'file' => $this->input->post('file'),
+            'status' => $this->input->post('status')
+        ];
+
+        // var_dump($data);
+        // die;
+
+        $this->db->insert('surat_keluar', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                Update Success!
+                </div>');
+        redirect('admin/surat_k');
+    }
+    public function edit_k($id)
+    {
+        $where = [
+            'id' => $id
+        ];
+
+        $data['title'] = 'Edit Surat Keluar';
+        $data['user'] = $this->db->get_where('user', ['nip' =>
+        $this->session->userdata('nip')])->row_array();
+
+        $data['surat_k'] = $this->model_keluar->edit_surat_k($where, 'surat_keluar')->result();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('surat/edit_k', $data);
+        $this->load->view('templates/footer');
+    }
+    public function update_k()
+    {
+        $id = $this->input->post('id');
+        $jenis_surat_k = $this->input->post('jenis_surat_k');
+        $no_surat_k = $this->input->post('no_surat_k');
+        $tgl_surat_k = $this->input->post('tgl_surat_k');
+        $hal_surat_k = $this->input->post('hal_surat_k');
+        $kepada = $this->input->post('kepada');
+        $waktu_rekam = $this->input->post('waktu_rekam');
+        $nama_rekam = $this->input->post('nama_rekam');
+        $nip_rekam = $this->input->post('nip_rekam');
+        $status = $this->input->post('status');
+
+        $data = [
+            'jenis_surat_k' => $jenis_surat_k,
+            'no_surat_k' => $no_surat_k,
+            'tgl_surat_k' => $tgl_surat_k,
+            'hal_surat_k' => $hal_surat_k,
+            'kepada' => $kepada,
+            'waktu_rekam' => $waktu_rekam,
+            'nama_rekam' => $nama_rekam,
+            'nip_rekam' => $nip_rekam,
+            'status' => $status
+        ];
+
+        $where = [
+            'id' => $id
+        ];
+
+        $this->model_keluar->update_surat_k($where, $data, 'surat_keluar');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Update Success!
+            </div>');
+        redirect('admin/surat_k');
+    }
+    public function hapus_k($id)
+    {
+        $where = [
+            'id' => $id
+        ];
+        $this->model_keluar->hapus_surat_k($where, 'surat_keluar');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Deleted Success!
+            </div>');
+        redirect('admin/surat_k');
     }
 }
